@@ -1,5 +1,6 @@
 function makeplot(reservoirID, stationName) {
- 	Plotly.d3.csv("https://uhslc.soest.hawaii.edu/reservoir/"+reservoirID+".csv", function(err, data){
+// 	Plotly.d3.csv("https://uhslc.soest.hawaii.edu/reservoir/"+reservoirID+".csv", function(err, data){
+ 	Plotly.d3.csv(URL_pre + reservoirID + ".csv", function(err, data){
     if (err) {
           Plotly.purge("graph1");
           Plotly.purge("graph2");
