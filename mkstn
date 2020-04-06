@@ -1,0 +1,35 @@
+#!/bin/bash
+# 
+# 
+#
+#  run this script to create selectbox.html
+# 
+#  ./mkstn > selectbox.html
+# 
+#head -1 fd*/datumTable_*.html | cut -d\> -f 4 | cut -d\< -f1 | sed -e '/^$/d' -e 's/_/\ /' -e 's/_/,\ /' > bar2
+
+cat << '_EOF1'
+<script type="text/javascript">
+  $('select').select2();
+  // $("select2").val(stn).trigger('change');
+</script>
+
+<form action="">
+  <div style=""><font size="+1">Station:</font></div>
+  <div style=""><select name="stn" class="select2">
+_EOF1
+
+while read LINE; do
+#  echo $LINE
+  pid=`echo $LINE | cut -c 1-8`
+  name=`echo $LINE | cut -c 10-`
+  printf "      <option value=\"$pid\">$pid $name</option>\n"
+done < alloc.txt
+
+cat << '_EOF2'
+  </select></div>
+  <!-- <p><input type="submit" value="Show" class="btn btn-primary"></p> -->
+</form>
+_EOF2
+
+#rm bar2
