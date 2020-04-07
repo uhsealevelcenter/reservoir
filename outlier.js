@@ -14,5 +14,5 @@ let getSD = function (data) {
 };
 
 let getOutlier = function (data) {
-    return getMean(data) + getSD(data);
+    return getMean(data) + 4*getSD(data);
 };

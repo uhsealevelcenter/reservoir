@@ -35,7 +35,7 @@ function processData(allRows) {
     row = allRows[i];
     //if(row['data']<-1000)
     //  row['data'] = 'NaN';
-    if (row['data'] < -4*outlier || row['data'] > 4*outlier)
+    if (row['data'] < -outlier || row['data'] > outlier)
       row['data'] = 'NaN';
     if (row['txtype'] == 1)
 		  {
