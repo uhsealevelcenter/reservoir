@@ -31,7 +31,7 @@ function processData(allRows) {
       row['data'] = 'NaN';
     if (row['txtype'] == 1)
 		  {
-        time1.push( row['date'] );
+        time1.push( new Date(row['date']) );
 		    battery1.push( row['bv'] );
         water_level1.push(row['data']/100);
         // clean out data that come at intervals longer than 5 minutes
@@ -53,7 +53,7 @@ function processData(allRows) {
       }
     if (row['txtype'] == 6)
 		  {
-        time6.push( row['date'] );
+        time6.push( new Date(row['date']) );
 		    battery6.push( row['bv'] );
         water_level6.push(row['data']/100);
       }
@@ -64,10 +64,10 @@ function processData(allRows) {
 	makePlotly( time1, battery1, water_level1, time6, battery6, water_level6 );
 }
 
-function makePlotly( time1, battery1, water_level1 , time6, battery6, water_level6){
+function makePlotly( time, battery1, water_level1 , time6, battery6, water_level6){
 	var plotDiv = document.getElementById("plot");
 	var bat_scheduled = {
-		x: time1,
+		x: time,
 		y: battery1,
     name: "Scheduled",
     type: "scatter",
@@ -99,7 +99,7 @@ function makePlotly( time1, battery1, water_level1 , time6, battery6, water_leve
     connectgaps: false,
 	};
   var MILLISECPERDAY = 86400000;
-  var today = new Date(time1[time1.length-1]);
+  var today = new Date(time[time.length-1]);
   var yesterday = new Date(today.valueOf() - MILLISECPERDAY*2);
   // var minus7days = new Date(new Date().setDate(today.getDate()-7));
   // console.log("minus7days "+minus7days);
@@ -109,7 +109,7 @@ function makePlotly( time1, battery1, water_level1 , time6, battery6, water_leve
     xaxis: {
    //range: [minus7days, today],  // to set the xaxis range to 0 to 1
    range: [yesterday, today],  // to set the xaxis range to 0 to 1
-   title: "Time/Date (GMT)",
+   title: "Time/Date ("+Intl.DateTimeFormat().resolvedOptions().timeZone+")",
           // autorange: true,
           rangeselector: {
             buttons: [
@@ -144,7 +144,7 @@ function makePlotly( time1, battery1, water_level1 , time6, battery6, water_leve
 
 
   var water_scheduled = {
-		x: time1,
+		x: time,
 		y: water_level1,
     name: "Scheduled",
     type: "scatter",
@@ -177,7 +177,7 @@ function makePlotly( time1, battery1, water_level1 , time6, battery6, water_leve
     xaxis: {
    //range: [minus7days, today],  // to set the xaxis range to 0 to 1
    range: [yesterday, today],  // to set the xaxis range to 0 to 1
-   title: "Time/Date (GMT)",
+   title: "Time/Date ("+Intl.DateTimeFormat().resolvedOptions().timeZone+")",
           // autorange: true,
           rangeselector: {
             buttons: [
