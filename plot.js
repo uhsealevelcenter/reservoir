@@ -24,10 +24,18 @@ function processData(allRows) {
 	var time1 = [], battery1 = [], water_level1 = [];
   var time6 = [], battery6 = [], water_level6 = [];
   var count = 0;
-
-	for (var i=0; i<allRows.length; i++) {
-		row = allRows[i];
-    if(row['data']<-1000)
+  var allvals = [];
+  for (var i=0; i<allRows.length; i++) {
+      row = allRows[i];
+      allvals.push(row['data']);
+  }
+  var outlier = getOutlier(allvals);
+  console.log(outlier);
+  for (var i=0; i<allRows.length; i++) {
+    row = allRows[i];
+    //if(row['data']<-1000)
+    //  row['data'] = 'NaN';
+    if (row['data'] < -4*outlier || row['data'] > 4*outlier)
       row['data'] = 'NaN';
     if (row['txtype'] == 1)
 		  {
