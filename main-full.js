@@ -1,5 +1,8 @@
 URL_pre="https://uhslc.soest.hawaii.edu/reservoir/";
 DEF_STATION = "EDD024F8";
+var outlier;
+var mean;
+var stdev;
 
 $(document).ready(function() {
 $('#selectbox').load(URL_pre + 'selectbox.html', function() {
