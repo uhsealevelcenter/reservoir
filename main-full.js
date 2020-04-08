@@ -1,6 +1,6 @@
 URL_pre="https://uhslc.soest.hawaii.edu/reservoir/";
 DEF_STATION = "EDD024F8";
-var outlier;
+var stdev;
 var mean;
 
 $(document).ready(function() {

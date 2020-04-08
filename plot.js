@@ -217,7 +217,7 @@ function makePlotly( time, battery1, water_level1 , time6, battery6, water_level
           type: 'date'
  },
    yaxis:{
-     range: [(mean-3*stdev)/100,(mean+3*stdev)/100]
+     range: [(mean-3*stdev)/100,(mean+5*stdev)/100]
    },
   }
   var options = {
