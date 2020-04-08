@@ -27,17 +27,17 @@ function processData(allRows) {
   var allvals = [];
   for (var i=0; i<allRows.length; i++) {
       row = allRows[i];
-      allvals.push(row['data']);
+      if(row['data']>-10000)
+         allvals.push(row['data']);
   }
-  outlier = getOutlier(allvals);
   stdev = getSD(allvals);
   mean = getMean(allvals);
-  console.log(outlier);
+  console.log("mean: " + mean);
+  console.log("stdev: " + stdev);
+
   for (var i=0; i<allRows.length; i++) {
     row = allRows[i];
     //if(row['data']<-1000)
-    //  row['data'] = 'NaN';
-    //if (row['data'] < -outlier || row['data'] > outlier)
     //  row['data'] = 'NaN';
     if (row['txtype'] == 1)
 		  {
@@ -217,7 +217,7 @@ function makePlotly( time, battery1, water_level1 , time6, battery6, water_level
           type: 'date'
  },
    yaxis:{
-     range: [(mean-4*stdev)/100,(mean+4*stdev)/100]
+     range: [(mean-2*stdev)/100,(mean+2*stdev)/100]
    },
   }
   var options = {

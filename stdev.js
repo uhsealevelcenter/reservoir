@@ -13,8 +13,3 @@ let getSD = function (data) {
         }, 0) / (data.length - 1));
 };
 
-let getOutlier = function (data) {
-    console.log("mean: " + getMean(data))
-    console.log("stdev: " + getSD(data))
-    return getMean(data) + 4*getSD(data);
-};
