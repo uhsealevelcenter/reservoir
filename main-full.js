@@ -11,7 +11,7 @@ $('#selectbox').load(URL_pre + 'selectbox.html', function() {
   $('#selectbox').on('select2:select', function(e) {
       var data = e.params.data;
       var stn = data.id + '-full';
-      var stn_name = data.text.substr(17,foo.text.length);
+      var stn_name = data.text.substr(17,data.text.length);
         makeplot(stn, stn_name);
     });
 });
