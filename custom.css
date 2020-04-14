@@ -55,3 +55,9 @@
 .switch-light:hover {
   cursor: pointer;
 }
+
+
+/* DISCLAIMER MODAL */
+.jBox-title {
+    padding: 1px 20px !important;
+}
