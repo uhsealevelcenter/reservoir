@@ -1,3 +1,57 @@
 .select2{
   width: 25%;
 }
+
+/**********************************************************************/
+/************************ UNIT TOGGLE BUTTONS *******************/
+/********************************************************************/
+#unitsButtonsContainer {
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    width: 25%;
+  }
+
+.switch-toggle.switch-candy,
+.switch-light.switch-candy>span {
+  background-color: #f2f2f2 !important;
+  border-radius: 0px !important;
+  /* box-shadow: none !important; */
+}
+
+.switch-light.switch-candy span span,
+.switch-light.switch-candy input:checked~span span:first-child,
+.switch-toggle.switch-candy label {
+  color: black !important;
+  font-weight: normal !important;
+  text-align: center;
+  text-shadow: none !important;
+  min-height: 2.6em !important;
+  line-height: 2.6em !important;
+}
+
+.switch-light.switch-candy input~span span:first-child,
+.switch-light.switch-candy input:checked~span span:nth-child(2),
+.switch-candy input:checked+label {
+  color: white !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.switch-candy a {
+  border: none !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  background-color: #428bca !important;
+  background-image: none !important;
+}
+
+.switch-candy-blue a {
+  background-color: #38a3d4;
+}
+
+.switch-candy-yellow a {
+  background-color: #f5e560;
+}
+
+.switch-light:hover {
+  cursor: pointer;
+}
