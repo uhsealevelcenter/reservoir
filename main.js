@@ -12,7 +12,10 @@ var disclaimerContent ='The data provided on this web site is subject to continu
 '<br> Viewers/Users are responsible for verifying the accuracy of the information and agree to indemnify UHSCL and DLNR, its officers and employees from any liability, which may arise from the use of its data or information.<br>'+
 '<br> Click Accept if you understand and accept the Terms of Use of this web site and data, otherwise click Cancel to EXIT.';
 
+vers = urlParams.get('v');
+
 $(document).ready(function() {
+
   var myModal = new jBox('Confirm', {
     content: disclaimerContent,
     title: '<h2>Disclaimer</h2>',
@@ -32,10 +35,6 @@ $(document).ready(function() {
     console.log("CONFIRMED");
   }
 
-
-vers = urlParams.get('v');
-
-$(document).ready(function() {
   if (vers == "full")
      v = "-full"
   else v = ""
