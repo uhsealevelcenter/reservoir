@@ -10,7 +10,7 @@ vers = urlParams.get('v');
 
 $(document).ready(function() {
   if (vers == "full") 
-     v = "full" 
+     v = "-full" 
   else v = ""
   isGMT = !$('#timeToggle').prop("checked");
   currentStation = DEF_STATION;
@@ -22,7 +22,7 @@ $('#selectbox').load(URL_pre + 'selectbox.html', function() {
   $('#selectbox').on('select2:select', function(e) {
     console.log("SELECT@ CHANGRD");
       var data = e.params.data;
-      var stn = data.id + '-' + v;
+      var stn = data.id + v;
       var stn_name = data.text.substr(17,data.text.length);
       currentStation = stn;
       currentStationName = stn_name;
