@@ -1,10 +1,17 @@
 URL_pre="https://uhslc.soest.hawaii.edu/reservoir/";
 DEF_STATION = "EDD024F8";
+const qq = window.location.search;
+const urlParams = new URLSearchParams(qq);
 var mean;
 var stdev;
 var isGMT, currentStation, currentStationName;
 
+vers = urlParams.get('v');
+
 $(document).ready(function() {
+  if (vers == "full") 
+     v = "full" 
+  else v = ""
   isGMT = !$('#timeToggle').prop("checked");
   currentStation = DEF_STATION;
   currentStationName = "Nuuanu";
@@ -15,7 +22,7 @@ $('#selectbox').load(URL_pre + 'selectbox.html', function() {
   $('#selectbox').on('select2:select', function(e) {
     console.log("SELECT@ CHANGRD");
       var data = e.params.data;
-      var stn = data.id;
+      var stn = data.id + '-' + v;
       var stn_name = data.text.substr(17,data.text.length);
       currentStation = stn;
       currentStationName = stn_name;
