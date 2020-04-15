@@ -250,6 +250,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
       type: 'date'
     },
     yaxis: {
+      title: "Feet",
       range: [(mean - 3 * stdev) / 100, (mean + 5 * stdev) / 100]
     },
   }
