@@ -64,7 +64,15 @@ function createAndOpenModal() {
 
 function onPopUpCancel() {
   console.log("CANCELED");
-  createAndOpenModal();
+// As per: https://stackoverflow.com/questions/19851782/how-to-open-a-url-in-a-new-tab-using-javascript-or-jquery
+  var win = window.open('https://dlnreng.hawaii.gov/fcds/', '_self');
+  if (win) {
+    //Browser has allowed it to be opened
+    win.focus();
+  } else {
+    //Browser has blocked it
+    alert('Please allow popups for this website');
+  }
 }
 
 function onPopUpConfirm() {
