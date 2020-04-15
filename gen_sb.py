@@ -65,4 +65,9 @@ sb += """  </select></div>
 f = open("sbox.html","w")
 f.write(sb)
 f.close()
+
+cleanstn.to_pickle('dams.pkl')
         
+
+
+
