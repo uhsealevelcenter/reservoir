@@ -7,9 +7,9 @@ var stdev;
 var isGMT, currentStation, currentStationName;
 
 
-var disclaimerContent = 'The data provided on this web site is subject to continual updating. The University of Hawaii Sea Level Center (UHSLC) and the Hawaii Department of Land and Natural Resources (DLNR) does not guarantee the accuracy, completeness, timeliness, or correct sequencing of the data and information provided in this web site. <br>' +
-  '<br> UHSLC and DLNR assumes no responsibility arising from the use, accuracy, completeness, and timeliness of any information, product, or process contained in this web site.<br>' +
-  '<br> Viewers/Users are responsible for verifying the accuracy of the information and agree to indemnify UHSCL and DLNR, its officers and employees from any liability, which may arise from the use of its data or information.<br>' +
+var disclaimerContent = 'The data provided on this web site is subject to continual updating. The University of Hawaii Sea Level Center (UHSLC) and the Hawaii Department of Land and Natural Resources (DLNR) do not guarantee the accuracy, completeness, timeliness, or correct sequencing of the data and information provided in this web site. <br>' +
+  '<br> UHSLC and DLNR assume no responsibility arising from the use, accuracy, completeness, and timeliness of any information, product, or process contained in this web site.<br>' +
+  '<br> Viewers/Users are responsible for verifying the accuracy of the information and agree to indemnify UHSLC and DLNR, its officers and employees from any liability, which may arise from the use of its data or information.<br>' +
   '<br> Click Accept if you understand and accept the Terms of Use of this web site and data, otherwise click Cancel to EXIT.';
 
 vers = urlParams.get('v');

@@ -34,9 +34,9 @@ sb = """<script type="text/javascript">
   <div style=""><select name="stn" class="select2">
 """
 
-stns = pd.read_excel('DAM allocations master.xlsx')
+stns = pd.read_excel('../DAM allocations master.xlsx')
 
-cleanstn=pd.DataFrame(columns=['addr','dlnrid','location','lat','lon'])
+cleanstn=pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off'])
 
 for stn in stns.ADDRESS:
     if isinstance(stn,str):
@@ -51,7 +51,9 @@ for stn in stns.ADDRESS:
                                   "dlnrid":[str(foo[0]['DLNR #'])], 
                                   "location":[str(foo[0]['LOCATION'])],
                                   "lat":[pos2dd(foo[0]['LAT'])],
-                                  "lon":[pos2dd(foo[0]['LONG'])]
+                                  "lon":[pos2dd(foo[0]['LONG'])],
+                                  "alert_on":[foo[0]['5 MIN ON']],
+                                  "alert_off":[foo[0]['5 MIN OFF']]
                                   })
             cleanstn = cleanstn.append(tempdf)
             
@@ -66,7 +68,7 @@ f = open("sbox.html","w")
 f.write(sb)
 f.close()
 
-cleanstn.to_pickle('dams.pkl')
+cleanstn.to_pickle('../dam_meta.pkl')
         
 
 
