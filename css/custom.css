@@ -4,7 +4,7 @@
   grid-gap: 5px;
   /* grid-row-gap: 15px; */
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 80px 80px auto auto auto;
+  grid-template-rows: 80px 160px auto auto auto;
   grid-template-areas:
     "d m m"
     "t m m"
