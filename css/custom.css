@@ -1,14 +1,60 @@
+.container {
+  height: 100%;
+  display: grid;
+  grid-gap: 5px;
+  /* grid-row-gap: 15px; */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 80px 80px auto auto auto;
+  grid-template-areas:
+    "d m m"
+    "t m m"
+    "h h h"
+    "w w w"
+    "b b b";
+}
+
+.dropdown {
+  grid-area: d;
+  align-items: center;
+}
+
+.toggle {
+  grid-area: t;
+  align-items: center;
+}
+
+/* LEAFLET */
+.my-map {
+  grid-area: m;
+  align-items: center;
+}
+
+.station-name{
+  grid-area: h;
+  align-items: center;
+}
+
+.water-plot{
+  grid-area: w;
+  align-items: center;
+}
+
+.battery-plot{
+  grid-area: b;
+  align-items: center;
+}
+
 .select2{
-  width: 25%;
+  width: 100%;
 }
 
 /**********************************************************************/
 /************************ UNIT TOGGLE BUTTONS *******************/
 /********************************************************************/
 #unitsButtonsContainer {
-    padding-top: 1.5vh;
+    /* padding-top: 1.5vh;
     padding-bottom: 1.5vh;
-    width: 25%;
+    width: 25%; */
   }
 
 .switch-toggle.switch-candy,

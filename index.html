@@ -13,23 +13,29 @@
 
 <body>
 
-  <div id="selectbox"></div>
-  <br>
-  <div class="" id="unitsButtonsContainer">
-    <label class="switch-light switch-candy tz" onclick="">
-      <input type="checkbox" id="timeToggle">
-      <span>
-        <span>GMT</span>
-        <span>HST</span>
-        <a></a>
-      </span>
-    </label>
-  </div>
-  <br>
-  <h1 style="text-align: center"></h1>
-  <div id="graph1" style="width: 100%; height: 600px;"></div>
-  <div id="graph2" style="width: 100%; height: 400px;"></div>
+  <div class="container">
 
+    <div class="dropdown" id="selectbox"></div>
+    <br>
+    <div class="toggle" id="unitsButtonsContainer">
+      <label class="switch-light switch-candy tz" onclick="">
+        <input type="checkbox" id="timeToggle">
+        <span>
+          <span>GMT</span>
+          <span>HST</span>
+          <a></a>
+        </span>
+      </label>
+    </div>
+    <br>
+    <div class="station-name">
+      <h1 style="text-align: center"></h1>
+    </div>
+
+    <div class="water-plot" id="graph1" style="width: 100%; height: 600px;"></div>
+    <div class="battery-plot" id="graph2" style="width: 100%; height: 400px;"></div>
+
+  </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.0.9/dist/jBox.all.min.js"></script>
