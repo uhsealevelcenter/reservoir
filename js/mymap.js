@@ -21,6 +21,7 @@ mainGeoJSON.on('data:loaded', function() {
   var geoJsonFormat = this.toGeoJSON();
 
   stationPointsLayer = L.geoJSON(geoJsonFormat, {
+    onEachFeature: onEachFeature
   // filter: function(feature, layer) {
   //   return typeof feature.properties.sl_component !== "undefined";
   // }
@@ -37,3 +38,47 @@ mainGeoJSON.on('data:progress', function() {
 mainGeoJSON.on('data:loading', function() {
   console.log("Loading");
 });
+
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    // mouseout: resetHighlight,
+    // click: zoomToFeature
+  });
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+  //
+  // layer.setStyle({
+  //   weight: 5,
+  //   color: '#666',
+  //   // fillColor: '#fd6f53',
+  //   dashArray: '',
+  //   fillOpacity: 0.7
+  // });
+  //
+  // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+  //   // layer.bringToFront();
+  // }
+
+  info.update(layer.feature.properties);
+}
+
+// control that shows state info on hover
+var info = L.control();
+
+info.onAdd = function (map) {
+  this._div = L.DomUtil.create('div', 'info');
+  this.update();
+  return this._div;
+};
+
+info.update = function (props) {
+
+  this._div.innerHTML = '<h4>DLNR stations:</h4>' +  (props ?
+    '<b>' + props.name + '</b><br />' : 'Hover over a station');
+};
+
+info.addTo(map);
