@@ -147,6 +147,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
    }
   var layout_bat = {
     title: "Battery Voltage",
+    autosize: true,
     autoresize: true,
     xaxis: {
       //range: [minus7days, today],  // to set the xaxis range to 0 to 1
@@ -217,6 +218,8 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
   var data_water = [water_scheduled, water_alert];
   var layout_water = {
     title: "Water level",
+    autosize: true,
+    autoresize: true,
     xaxis: {
       //range: [minus7days, today],  // to set the xaxis range to 0 to 1
       range: [yesterday, today], // to set the xaxis range to 0 to 1
@@ -291,6 +294,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
     //modeBarButtonsToAdd: ['lasso2d'],
 
     displayModeBar: true,
+    responsive: true
   };
   console.log("battery schedule last index "+data_bat[0].x[data_bat[0].x.length-1]);
   Plotly.newPlot(BATTERY_PLOT_ID, data_bat,
