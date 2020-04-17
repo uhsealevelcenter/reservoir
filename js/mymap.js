@@ -44,7 +44,7 @@ function onEachFeature(feature, layer) {
   layer.on({
     mouseover: highlightFeature,
     // mouseout: resetHighlight,
-    // click: zoomToFeature
+    click: zoomToFeature
   });
 }
 
@@ -66,7 +66,17 @@ function highlightFeature(e) {
   info.update(layer.feature.properties);
 }
 
-// control that shows state info on hover
+function zoomToFeature(e) {
+
+  var stationID = e.target.feature.id;
+  $('.select2').val(stationID);
+  $('.select2').trigger('change'); // Notify any JS components that the value changed
+  map.setView([e.target.feature.geometry.coordinates[1],e.target.feature.geometry.coordinates[0]], 12)
+  makeplot(stationID, e.target.feature.properties.name, isGMT);
+}
+
+
+// control that station name on hover
 var info = L.control();
 
 info.onAdd = function (map) {
