@@ -19,23 +19,29 @@ function makeplot(reservoirID, stationName, _isGMT) {
     } else {
       $("#graph1").empty();
       $("#graph2").empty();
+      // Find the selected station object from the geojson file
+      var stationObject = stationPointsLayer.toGeoJSON().features.find(o => o.id === reservoirID);
+      data.station = stationObject;
       processData(data, _isGMT);
       $('h1').text(stationName);
+
+
+      // stationPointsLayer.eachLayer(function(layer) {
+      //   console.log("NK "+layer.feature.properties.name);
+      // });
     }
 
   });
 };
 
-
-
-function processData(allRows, _isGMT) {
+function processData(allData, _isGMT) {
   // time1: scheduled transmission
   // time6: alert transmission
 
   var count = 0;
   var allvals = [];
-  for (var i = 0; i < allRows.length; i++) {
-    row = allRows[i];
+  for (var i = 0; i < allData.length; i++) {
+    row = allData[i];
     if (row['data'] > -10000)
       allvals.push(row['data']);
   }
@@ -44,8 +50,13 @@ function processData(allRows, _isGMT) {
   console.log("mean: " + mean);
   console.log("stdev: " + stdev);
 
-  for (var i = 0; i < allRows.length; i++) {
-    row = allRows[i];
+  var water_alerts ={
+    on: allData.station.properties.alert_on,
+    off: allData.station.properties.alert_off
+  }
+
+  for (var i = 0; i < allData.length; i++) {
+    row = allData[i];
     //if(row['data']<-1000)
     //  row['data'] = 'NaN';
     var mydate = row['date'];
@@ -95,10 +106,10 @@ function processData(allRows, _isGMT) {
   }
 
 
-  makePlotly(time1, battery1, water_level1, time6, battery6, water_level6, _isGMT);
+  makePlotly(time1, battery1, water_level1, time6, battery6, water_level6, _isGMT, water_alerts);
 }
 
-function makePlotly(time, battery1, water_level1, time6, battery6, water_level6, _isGMT) {
+function makePlotly(time, battery1, water_level1, time6, battery6, water_level6, _isGMT, alert) {
 
   var bat_scheduled = {
     x: time,
@@ -215,7 +226,31 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
     },
     connectgaps: false,
   };
-  var data_water = [water_scheduled, water_alert];
+
+  var alert_level_on = {
+    x:[time[0], time[time.length-1]],
+    y:[alert.on, alert.on],
+    name: "Alert On",
+    type: "scatter",
+    mode: "lines",
+    line: {
+      color: 'red',
+      dash: 'dash'
+    },
+  }
+  var alert_level_off = {
+    x:[time[0], time[time.length-1]],
+    y:[alert.off, alert.off],
+    name: "Alert Off",
+    type: "scatter",
+    mode: "lines",
+    line: {
+      color: 'green',
+      dash: 'dash'
+    },
+  }
+
+  var data_water = [water_scheduled, water_alert, alert_level_on, alert_level_off];
   var layout_water = {
     title: "Water level",
     autosize: true,
