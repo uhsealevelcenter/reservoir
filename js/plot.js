@@ -230,7 +230,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
   var alert_level_on = {
     x:[time[0], time[time.length-1]],
     y:[alert.on, alert.on],
-    name: "Alert On",
+    name: "Alert on " + String(alert.on),
     type: "scatter",
     mode: "lines",
     line: {
@@ -241,7 +241,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
   var alert_level_off = {
     x:[time[0], time[time.length-1]],
     y:[alert.off, alert.off],
-    name: "Alert Off",
+    name: "Alert off " + String(alert.off),
     type: "scatter",
     mode: "lines",
     line: {
