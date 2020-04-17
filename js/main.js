@@ -32,7 +32,9 @@ $(document).ready(function() {
     $('#selectbox').on('select2:select', function(e) {
       console.log("SELECT@ CHANGRD");
       var data = e.params.data;
-      var stn = data.id + v;
+      // DY 4/17/20 
+      // the data type used to be appended here, but is now moved to the makeplot subroutine
+      var stn = data.id;
       var stn_name = data.text.substr(17, data.text.length);
       currentStation = stn;
       currentStationName = stn_name;

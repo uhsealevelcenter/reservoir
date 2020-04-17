@@ -8,7 +8,7 @@ function makeplot(reservoirID, stationName, _isGMT) {
   time1 = [], battery1 = [], water_level1 = [],
   time6 = [], battery6 = [], water_level6 = [];
   // 	Plotly.d3.csv("https://uhslc.soest.hawaii.edu/reservoir/"+reservoirID+".csv", function(err, data){
-  Plotly.d3.csv(URL_pre + reservoirID + ".csv", function(err, data) {
+  Plotly.d3.csv(URL_pre + reservoirID + v + ".csv", function(err, data) {
     if (err) {
       Plotly.purge(BATTERY_PLOT_ID);
       Plotly.purge(WATER_PLOT_ID);
