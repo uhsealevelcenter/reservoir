@@ -37,6 +37,7 @@ $(document).ready(function() {
       currentStation = stn;
       currentStationName = stn_name;
       makeplot(stn, stn_name, isGMT);
+      focusOnMapObject(stn);
     });
   });
 

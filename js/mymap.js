@@ -92,3 +92,12 @@ info.update = function (props) {
 };
 
 info.addTo(map);
+
+function focusOnMapObject(objID) {
+  stationPointsLayer.eachLayer(function(l){
+      if(l.feature.id == objID){
+        map.setView([l.feature.geometry.coordinates[1],l.feature.geometry.coordinates[0]], 12)
+      }
+    });
+
+}
