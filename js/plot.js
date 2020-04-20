@@ -42,7 +42,7 @@ function processData(allData, _isGMT) {
   var allvals = [];
   for (var i = 0; i < allData.length; i++) {
     row = allData[i];
-    if (row['data'] > -10000)
+    if (row['data'] > -10000 && row['data'] < 99999)
       allvals.push(row['data']);
   }
   stdev = getSD(allvals);
