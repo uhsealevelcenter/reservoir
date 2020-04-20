@@ -49,7 +49,9 @@ function processData(allData, _isGMT) {
   mean = getMean(allvals);
   console.log("mean: " + mean);
   console.log("stdev: " + stdev);
-  var maxarr = allvals.sort();
+  var maxarr = allvals.sort(function(a,b){
+     return a - b;
+  });
   maxval = maxarr[maxarr.length-1]/100;
   console.log("Max: " + maxval);
 
