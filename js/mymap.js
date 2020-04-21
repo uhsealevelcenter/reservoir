@@ -73,7 +73,8 @@ function zoomToFeature(e) {
   $('.select2').trigger('change'); // Notify any JS components that the value changed
   map.setView([e.target.feature.geometry.coordinates[1],e.target.feature.geometry.coordinates[0]], 12)
   currentStation = stationID;
-  makeplot(stationID, e.target.feature.properties.name, isGMT);
+  currentStationName = e.target.feature.properties.name;
+  makeplot(stationID, currentStationName, isGMT);
 }
 
 
