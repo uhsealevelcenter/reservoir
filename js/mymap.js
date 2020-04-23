@@ -70,7 +70,7 @@ regionAlertLayer = L.geoJSON(geoJsonFormat, {
 });
 
 allPulsesGroup = L.layerGroup(markers);
-allPulsesGroup.addTo(map);
+// allPulsesGroup.addTo(map);
 
 stationPointsLayer.addTo(map);
 });
