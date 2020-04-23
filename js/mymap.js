@@ -23,7 +23,7 @@ var mainGeoJSON = new L.GeoJSON.AJAX("stations.geojson");
 
 var stationPointsLayer = {};
 mainGeoJSON.on('data:loaded', function() {
-  console.log("Loaded", mainGeoJSON);
+  // console.log("Loaded", mainGeoJSON);
   var geoJsonFormat = this.toGeoJSON();
 
   stationPointsLayer = L.geoJSON(geoJsonFormat, {

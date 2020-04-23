@@ -152,9 +152,10 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
   var today = new Date(time[time.length - 1]);
   // Set range back to local scale and an extra hour for padding
   today.setHours(today.getHours() +11);
-  var yesterday = new Date(today.valueOf() - MILLISECPERDAY * 2);
+  // var yesterday = new Date(today.valueOf() - MILLISECPERDAY * 2);
   // var minus7days = new Date(new Date().setDate(today.getDate()-7));
-  console.log("today "+today);
+  var yesterday = new Date(today.valueOf() - MILLISECPERDAY * 42);
+  // console.log("today "+today);
   var title;
   if(_isGMT)
    title = "Time/Date (GMT)";
@@ -173,7 +174,8 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
       title: title,
       // autorange: true,
       rangeselector: {
-        buttons: [{
+        buttons: [
+          {
             count: 2,
             label: '2d',
             step: 'day',
@@ -267,7 +269,8 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
       title: title,
       // autorange: true,
       rangeselector: {
-        buttons: [{
+        buttons: [
+          {
             count: 2,
             label: '2d',
             step: 'day',
