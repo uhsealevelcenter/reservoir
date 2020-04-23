@@ -56,8 +56,8 @@ function processData(allData, _isGMT) {
   console.log("Max: " + maxval);
 
   var water_alerts ={
-    on: allData.station.properties.alert_on,
-    off: allData.station.properties.alert_off
+    on: allData.station.properties.level_alert_on,
+    off: allData.station.properties.level_alert_off
   }
 
   for (var i = 0; i < allData.length; i++) {
