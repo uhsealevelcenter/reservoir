@@ -1,3 +1,6 @@
+var GREY = "#aaaaaa";
+var RED = "#FF310D";
+
 var map = L.map('map',{
 }).setView([21.102, -157.327], 7);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -11,13 +14,16 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(map);
 
 
+var markers = [];
+var regionAlertLayer = {};
+var allPulsesGroup = {};
 
 //Loading stations locations
 var mainGeoJSON = new L.GeoJSON.AJAX("stations.geojson");
 
 var stationPointsLayer = {};
 mainGeoJSON.on('data:loaded', function() {
-  console.log("Loaded", mainGeoJSON);
+  // console.log("Loaded", mainGeoJSON);
   var geoJsonFormat = this.toGeoJSON();
 
   stationPointsLayer = L.geoJSON(geoJsonFormat, {
@@ -27,8 +33,46 @@ mainGeoJSON.on('data:loaded', function() {
   // }
 });
 
-stationPointsLayer.addTo(map);
 
+
+regionAlertLayer = L.geoJSON(geoJsonFormat, {
+
+  pointToLayer: function(feature, latlng) {
+
+    if (feature.properties.level_alert>0) {
+      var alertColor = {};
+      switch (feature.properties.level_alert) {
+        // case 0:
+        //   alertColor = GREY;
+        //   break;
+        case 1:
+          alertColor = RED;
+          break;
+      }
+      // create a pulse icon
+      var pulse = L.icon.pulse({
+        iconSize: [20, 20],
+        color: alertColor,
+        fillColor: alertColor,
+      });
+      // Create a marker at lat,lng that has pulse icon
+      var mark = new L.marker(latlng, {
+        icon: pulse,
+        title: feature.properties.name,
+        myCustomOption: "Can Insert Data Here",
+      });
+      // Added all markers to the markers an array that is added to a Layer to be
+      // displayed below
+      markers.push(mark);
+    }
+    // return L.circleMarker(latlng, geojsonMarkerOptions);
+  }
+});
+
+allPulsesGroup = L.layerGroup(markers);
+// allPulsesGroup.addTo(map);
+
+stationPointsLayer.addTo(map);
 });
 
 mainGeoJSON.on('data:progress', function() {

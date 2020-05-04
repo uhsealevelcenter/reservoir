@@ -4,10 +4,11 @@
   grid-gap: 5px;
   /* grid-row-gap: 15px; */
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 80px 160px auto auto auto;
+  grid-template-rows: 25% 80px 90px auto auto auto;
   grid-template-areas:
-    "d m m"
-    "t m m"
+    "m m m"
+    "d . ."
+    "t . ."
     "h h h"
     "w w w"
     "b b b";
