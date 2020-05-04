@@ -53,7 +53,10 @@ function processData(allData, _isGMT) {
      return a - b;
   });
   maxval = maxarr[maxarr.length-1]/100;
-  console.log("Max: " + maxval);
+  if (maxval > (mean + 5*stdev)/100) {
+     maxval = (mean + 5*stdev)/100;
+  }
+  console.log("maxval: " + maxval);
 
   var water_alerts ={
     on: allData.station.properties.level_alert_on,
