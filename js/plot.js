@@ -38,7 +38,7 @@ function processData(allData, _isGMT) {
   // time1: scheduled transmission
   // time6: alert transmission
 
-  var count = 0;
+  // var count = 0;
   var allvals = [];
   for (var i = 0; i < allData.length; i++) {
     row = allData[i];
@@ -90,20 +90,20 @@ function processData(allData, _isGMT) {
       battery1.push(row['bv']);
       water_level1.push(row['data'] / 100);
       // clean out data that come at intervals longer than 5 minutes
-      // by creatiing an artificial (mid) time point between the intervals and
+      // by creating an artificial (mid) time point between the intervals and
       // assign it a null value
-      if (count > 0) {
-        var date1 = new Date(time1[count]);
-        var date2 = new Date(time1[count - 1]);
-        var diff = date1.getTime() - date2.getTime();
-        if (diff > 300000) {
-          // console.log(diff);
-          time1[time1.length - 1] = (new Date((date1.getTime() + date2.getTime()) / 2));
-          battery1[battery1.length - 1] = null;
-          water_level1[water_level1.length - 1] = null;
-        }
-      }
-      count += 1;
+      // if (count > 0) {
+      //   var date1 = new Date(time1[count]);
+      //   var date2 = new Date(time1[count - 1]);
+      //   var diff = date1.getTime() - date2.getTime();
+      //   if (diff > 300000) {
+      //     console.log(diff);
+      //     time1[time1.length - 1] = (new Date((date1.getTime() + date2.getTime()) / 2));
+      //     battery1[battery1.length - 1] = null;
+      //     water_level1[water_level1.length - 1] = null;
+      //   }
+      // }
+      // count += 1;
     }
     if (row['txtype'] == 6) {
       time6.push(mydate);
@@ -117,11 +117,11 @@ function processData(allData, _isGMT) {
   makePlotly(time1, battery1, water_level1, time6, battery6, water_level6, _isGMT, water_alerts);
 }
 
-function makePlotly(time, battery1, water_level1, time6, battery6, water_level6, _isGMT, alert) {
+function makePlotly(_time1, _battery1, _water_level1, _time6, _battery6, _water_level6, _isGMT, alert) {
 
   var bat_scheduled = {
-    x: time,
-    y: battery1,
+    x: _time1,
+    y: _battery1,
     name: "Scheduled",
     type: "scatter",
     mode: "lines",
@@ -136,8 +136,8 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
 
   };
   var bat_alert = {
-    x: time6,
-    y: battery6,
+    x: _time6,
+    y: _battery6,
     name: "Alert",
     type: "scatter",
     mode: "markers",
@@ -152,7 +152,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
     connectgaps: false,
   };
 
-  var today = new Date(time[time.length - 1]);
+  var today = new Date(_time1[_time1.length - 1]);
   // Set range back to local scale and an extra hour for padding
   today.setHours(today.getHours() +11);
   // var yesterday = new Date(today.valueOf() - MILLISECPERDAY * 2);
@@ -209,8 +209,8 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
 
 
   var water_scheduled = {
-    x: time,
-    y: water_level1,
+    x: _time1,
+    y: _water_level1,
     name: "Scheduled",
     type: "scatter",
     mode: "lines",
@@ -221,8 +221,8 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
     connectgaps: false,
   };
   var water_alert = {
-    x: time6,
-    y: water_level6,
+    x: _time6,
+    y: _water_level6,
     name: "Alert",
     type: "scatter",
     mode: "markers",
@@ -238,7 +238,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
   };
 
   var alert_level_on = {
-    x:[time[0], time[time.length-1]],
+    x:[_time1[0], _time1[_time1.length-1]],
     y:[alert.on, alert.on],
     name: "Alert on " + String(alert.on),
     type: "scatter",
@@ -249,7 +249,7 @@ function makePlotly(time, battery1, water_level1, time6, battery6, water_level6,
     },
   }
   var alert_level_off = {
-    x:[time[0], time[time.length-1]],
+    x:[_time1[0], _time1[_time1.length-1]],
     y:[alert.off, alert.off],
     name: "Alert off " + String(alert.off),
     type: "scatter",
