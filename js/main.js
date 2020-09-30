@@ -16,28 +16,29 @@ var disclaimerContent = 'The data provided on this web site is subject to contin
 vers = urlParams.get('v');
 defstn = urlParams.get('stn');
 
-$(document).ready(function() {
+if (vers == "full")
+  v = "-full"
+else v = ""
 
-  createAndOpenModal();
+stnNames = [];
 
-  if (vers == "full")
-    v = "-full"
-  else v = ""
-
-  stnNames = []
+if (defstn) {
   fetch("stations.geojson")
     .then(response => response.json())
     .then(json => {
       json.features.forEach(function(arrayItem) {
         // console.log(arrayItem.id + " " + arrayItem.properties.name);
         stnNames.push({stnid:arrayItem.id, stnName:arrayItem.properties.name});
-      })
+      });
+      DEF_STATION = defstn;
+      DEF_STNNAME = stnNames.find( ({ stnid }) => stnid === defstn ).stnName;
     });
+}
 
-  if (defstn) {
-    DEF_STATION = defstn;
-    DEF_STNNAME = stnNames.find( ({ stnid }) => stnid === defstn ).stnName;
-  }
+$(document).ready(function() {
+
+  createAndOpenModal();
+
   console.log(DEF_STATION);
 
   isGMT = !$('#timeToggle').prop("checked");
@@ -46,7 +47,7 @@ $(document).ready(function() {
   $('#selectbox').load(URL_pre + 'selectbox.html', function() {
     $('.select2').val(DEF_STATION).trigger('change');
 
-    makeplot(DEF_STATION, "Nuuanu", isGMT);
+    makeplot(DEF_STATION, DEF_STNNAME, isGMT);
     $('#selectbox').on('select2:select', function(e) {
       console.log("SELECT@ CHANGRD");
       var data = e.params.data;
