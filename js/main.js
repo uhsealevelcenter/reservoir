@@ -1,5 +1,6 @@
 URL_pre = "https://uhslc.soest.hawaii.edu/reservoir/";
 DEF_STATION = "EDD024F8";
+DEF_STNNAME = "Nuuanu";
 const qq = window.location.search;
 const urlParams = new URLSearchParams(qq);
 var mean;
@@ -13,6 +14,7 @@ var disclaimerContent = 'The data provided on this web site is subject to contin
   '<br> Click Accept if you understand and accept the Terms of Use of this web site and data, otherwise click Cancel to EXIT.';
 
 vers = urlParams.get('v');
+defstn = urlParams.get('stn');
 
 $(document).ready(function() {
 
@@ -22,9 +24,25 @@ $(document).ready(function() {
     v = "-full"
   else v = ""
 
+  stnNames = []
+  fetch("stations.geojson")
+    .then(response => response.json())
+    .then(json => {
+      json.features.forEach(function(arrayItem) {
+        // console.log(arrayItem.id + " " + arrayItem.properties.name);
+        stnNames.push({stnid:arrayItem.id, stnName:arrayItem.properties.name});
+      })
+    });
+
+  if (defstn) {
+    DEF_STATION = defstn;
+    DEF_STNNAME = stnNames.find( ({ stnid }) => stnid === defstn ).stnName;
+  }
+  console.log(DEF_STATION);
+
   isGMT = !$('#timeToggle').prop("checked");
   currentStation = DEF_STATION;
-  currentStationName = "Nuuanu";
+  currentStationName = DEF_STNNAME;
   $('#selectbox').load(URL_pre + 'selectbox.html', function() {
     $('.select2').val(DEF_STATION).trigger('change');
 
