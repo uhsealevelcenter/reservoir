@@ -26,12 +26,9 @@ if (defstn) {
   fetch("stations.geojson")
     .then(response => response.json())
     .then(json => {
-      json.features.forEach(function(arrayItem) {
-        // console.log(arrayItem.id + " " + arrayItem.properties.name);
-        stnNames.push({stnid:arrayItem.id, stnName:arrayItem.properties.name});
-      });
+      jsonblob = json;
       DEF_STATION = defstn;
-      DEF_STNNAME = stnNames.find( ({ stnid }) => stnid === defstn ).stnName;
+      DEF_STNNAME = json.features.find(element => element.id === defstn).properties.name;
     });
 }
 
