@@ -54,6 +54,8 @@ $(document).ready(function() {
       var stn_name = data.text.substr(17, data.text.length);
       currentStation = stn;
       currentStationName = stn_name;
+      urlParams.set('stn',stn);
+      window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
       makeplot(stn, stn_name, isGMT);
       focusOnMapObject(stn);
     });
