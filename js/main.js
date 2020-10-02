@@ -75,6 +75,14 @@ $(document).ready(function() {
 
 });
 
+
+$( "#stnmeta" ).click(function(e) {
+  e.preventDefault();
+  //console.log(e.target.innerHTML);
+  updateStn(e.target.innerHTML);
+  makeplot(e.target.innerHTML, jsonblob.features.find(element => element.id === e.target.innerHTML).properties.name, isGMT);
+});
+
 $("#timeToggle").off().on('change', function() {
   isGMT = !$('#timeToggle').prop("checked");
   console.log("IS GMT time after change? " + isGMT);
@@ -117,6 +125,7 @@ function updateStn(stn) {
   $('.select2').val(stn).trigger('change');
 
   urlParams.set('stn',stn);
+  window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
 
   focusOnMapObject(stn);
 
