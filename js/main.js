@@ -20,7 +20,7 @@ if (vers == "full")
   v = "-full"
 else v = ""
 
-stnNames = [];
+jsonblob = {};
 
 if (defstn) {
   fetch("stations.geojson")
@@ -29,6 +29,18 @@ if (defstn) {
       jsonblob = json;
       DEF_STATION = defstn;
       DEF_STNNAME = json.features.find(element => element.id === defstn).properties.name;
+
+      document.getElementById("stnmeta").innerHTML = "<tr><th>stnid</th><th>dlnrid</th><th>lat</th><th>lon</th>";
+ 
+      json.features.forEach(function(entry) {
+          document.getElementById("stnmeta").innerHTML += "<tr>" +
+              "<td><a href=?stn=" + entry.id + ">" + entry.id + "</a></td>" +
+              "<td>" + entry.properties.dlnrid + "</td>" +
+              "<td>" + entry.geometry.coordinates[1] + "</td>" +
+              "<td>" + entry.geometry.coordinates[0] + "</td>" +
+              "</tr>";
+          });
+
     });
 }
 
