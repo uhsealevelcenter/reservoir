@@ -33,6 +33,7 @@
 .stntbl{
   grid-area: st;
   align-items: center;
+  overflow: scroll;
 }
 
 .station-name{
