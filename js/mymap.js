@@ -113,11 +113,12 @@ function highlightFeature(e) {
 function zoomToFeature(e) {
 
   var stationID = e.target.feature.id;
-  $('.select2').val(stationID);
-  $('.select2').trigger('change'); // Notify any JS components that the value changed
-  map.setView([e.target.feature.geometry.coordinates[1],e.target.feature.geometry.coordinates[0]], 12)
+  //$('.select2').val(stationID);
+  //$('.select2').trigger('change'); // Notify any JS components that the value changed
+  //map.setView([e.target.feature.geometry.coordinates[1],e.target.feature.geometry.coordinates[0]], 12)
   currentStation = stationID;
   currentStationName = e.target.feature.properties.name;
+  updateStn(currentStation);
   makeplot(stationID, currentStationName, isGMT);
 }
 

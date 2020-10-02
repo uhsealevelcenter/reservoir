@@ -54,6 +54,7 @@ $(document).ready(function() {
   currentStation = DEF_STATION;
   currentStationName = DEF_STNNAME;
   $('#selectbox').load(URL_pre + 'selectbox.html', function() {
+    updateStn(DEF_STATION);
     $('.select2').val(DEF_STATION).trigger('change');
 
     makeplot(DEF_STATION, DEF_STNNAME, isGMT);
@@ -66,8 +67,7 @@ $(document).ready(function() {
       var stn_name = data.text.substr(17, data.text.length);
       currentStation = stn;
       currentStationName = stn_name;
-      urlParams.set('stn',stn);
-      window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
+      updateStn(stn);
       makeplot(stn, stn_name, isGMT);
       focusOnMapObject(stn);
     });
@@ -110,6 +110,16 @@ function onPopUpCancel() {
 
 function onPopUpConfirm() {
   console.log("CONFIRMED");
+}
+
+function updateStn(stn) {
+  console.log("Updating Station");
+  $('.select2').val(stn).trigger('change');
+
+  urlParams.set('stn',stn);
+
+  focusOnMapObject(stn);
+
 }
 
 // In case we do not want to use Jquery
