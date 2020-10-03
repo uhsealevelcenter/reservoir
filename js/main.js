@@ -1,6 +1,6 @@
 URL_pre = "https://uhslc.soest.hawaii.edu/reservoir/";
 DEF_STATION = "EDD024F8";
-DEF_STNNAME = "Nuuanu";
+DEF_STNNAME = "Nuuanu No 1";
 const qq = window.location.search;
 const urlParams = new URLSearchParams(qq);
 var mean;
@@ -30,10 +30,12 @@ if (defstn) {
       DEF_STATION = defstn;
       DEF_STNNAME = json.features.find(element => element.id === defstn).properties.name;
 
-      document.getElementById("stnmeta").innerHTML = "<tr><th>stnid</th><th>dlnrid</th><th>name</th><th>lat</th><th>lon</th>";
+      // table needs to be assembled before inserting into innerHTML, otherwise it will try to "fix" it for you.      
+      var tbl;
+      tbl = "<thead><tr><th>stnid</th><th>dlnrid</th><th>name</th><th>lat</th><th>lon</th></tr></thead><tbody>";
  
       json.features.forEach(function(entry) {
-          document.getElementById("stnmeta").innerHTML += "<tr>" +
+          tbl += "<tr>" +
               "<td><a href=?stn=" + entry.id + ">" + entry.id + "</a></td>" +
               "<td>" + entry.properties.dlnrid + "</td>" +
               "<td>" + entry.properties.name + "</td>" +
@@ -41,8 +43,11 @@ if (defstn) {
               "<td>" + entry.geometry.coordinates[0] + "</td>" +
               "</tr>";
           });
+          tbl += "</tbody>";
+          //console.log(tbl);
+          document.getElementById("stnmeta").innerHTML = tbl;
       // $("#meta-table tr:nth-child(odd)").css("background-color", "white");
-
+    //console.log(document.getElementById("stnmeta").innerHTML);
     });
 }
 
