@@ -41,6 +41,7 @@ if (defstn) {
               "<td>" + entry.geometry.coordinates[0] + "</td>" +
               "</tr>";
           });
+      // $("#meta-table tr:nth-child(odd)").css("background-color", "white");
 
     });
 }

@@ -4,7 +4,7 @@
   grid-gap: 5px;
   /* grid-row-gap: 15px; */
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 25% 80px 90px auto auto auto;
+  grid-template-rows: 35vh 80px 90px auto auto auto;
   grid-template-areas:
     "m m m"
     "d st st"
@@ -128,3 +128,35 @@
   margin: 0 0 5px;
   color: #777;
 }
+
+/**********************************************************************/
+/************************ STATIONS META TABLE ********************************/
+/********************************************************************/
+table {border: none;}
+#stnmeta{
+  margin: auto!important;
+}
+#meta-table table,
+th,
+td {
+  /* border: 1px solid black; */
+  padding: 4px 40px 4px 5px;
+  background-color: rgba(255, 255, 255, 0.0);
+  margin-left: 7px;
+}
+
+#meta-table table,
+th, td {
+  text-align: left;
+}
+
+#meta-table th {
+  background-color: #428bca;
+  color: white;
+}
+
+/* remove table header*/
+#meta-table tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
