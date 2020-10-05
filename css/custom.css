@@ -190,3 +190,22 @@ th {
 /*  background-attachment: local, local, scroll, scroll;*/
 /*  }*/
 
+@media only screen and (max-width: 1000px) {
+.container {
+  height: 100%;
+  display: grid;
+  grid-gap: 5px;
+  /* grid-row-gap: 15px; */
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 35vh 80px 90px 35vh auto auto auto;
+  grid-template-areas:
+    "m m "
+    "d d"
+    "t t"
+    "st st"
+    "h h"
+    "w w"
+    "b b";
+}
+}
+
