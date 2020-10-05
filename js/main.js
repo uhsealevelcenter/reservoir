@@ -36,7 +36,7 @@ if (defstn) {
  
       json.features.forEach(function(entry) {
           tbl += "<tr>" +
-              "<td><a href=?stn=" + entry.id + ">" + entry.id + "</a></td>" +
+              "<td class=&quot;stnid&quot;><a href=?stn=" + entry.id + ">" + entry.id + "</a></td>" +
               "<td>" + entry.properties.dlnrid + "</td>" +
               "<td>" + entry.properties.name + "</td>" +
               "<td>" + entry.geometry.coordinates[1] + "</td>" +
@@ -84,6 +84,7 @@ $(document).ready(function() {
 
 
 $( "#stnmeta" ).click(function(e) {
+//$( ".stnid" ).click(function(e) {
   e.preventDefault();
   //console.log(e.target.innerHTML);
   updateStn(e.target.innerHTML);
