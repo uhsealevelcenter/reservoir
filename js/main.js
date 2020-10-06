@@ -36,7 +36,7 @@ if (defstn) {
  
       json.features.forEach(function(entry) {
           tbl += "<tr>" +
-              "<td class=&quot;stnid&quot;><a href=?stn=" + entry.id + ">" + entry.id + "</a></td>" +
+              "<td class=\"stnid\"><a href=?stn=" + entry.id + ">" + entry.id + "</a></td>" +
               "<td>" + entry.properties.dlnrid + "</td>" +
               "<td>" + entry.properties.name + "</td>" +
               "<td>" + entry.geometry.coordinates[1] + "</td>" +
@@ -82,13 +82,14 @@ $(document).ready(function() {
 
 });
 
-
-$( "#stnmeta" ).click(function(e) {
-//$( ".stnid" ).click(function(e) {
+$("#stnmeta").click(function(e) {
+  //console.log(e.target);
   e.preventDefault();
-  //console.log(e.target.innerHTML);
-  updateStn(e.target.innerHTML);
-  makeplot(e.target.innerHTML, jsonblob.features.find(element => element.id === e.target.innerHTML).properties.name, isGMT);
+  if($(e.target).closest('a').length){
+     //console.log(e.target.innerHTML);
+     updateStn(e.target.innerHTML);
+     makeplot(e.target.innerHTML, jsonblob.features.find(element => element.id === e.target.innerHTML).properties.name, isGMT);
+  }
 });
 
 $("#timeToggle").off().on('change', function() {
