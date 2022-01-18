@@ -1,0 +1,9 @@
+ rsync -auv 'ilikai.soest.hawaii.edu:/home/ilikai10/slctech/DAM/DAM\ allocations\ master.xlsx' .
+
+python utils/gen_sb.py
+rsync -au sbox.html uhslc.soest.hawaii.edu:/srv/htdocs/uhslc.soest.hawaii.edu/reservoir/selectbox.html
+
+python create_geojson.py 
+rsync -au stations.geojson uhslc.soest.hawaii.edu:/srv/htdocs/uhslc.soest.hawaii.edu/reservoir
+  
+

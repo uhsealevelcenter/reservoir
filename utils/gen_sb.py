@@ -34,7 +34,7 @@ sb = """<script type="text/javascript">
   <div style=""><select name="stn" class="select2">
 """
 
-stns = pd.read_excel('../DAM allocations master.xlsx')
+stns = pd.read_excel('DAM allocations master.xlsx')
 
 cleanstn=pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off'])
 
@@ -68,7 +68,7 @@ f = open("sbox.html","w")
 f.write(sb)
 f.close()
 
-cleanstn.to_pickle('../dam_meta.pkl')
+cleanstn.to_pickle('dam_meta.pkl')
         
 
 
