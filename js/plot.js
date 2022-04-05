@@ -2,7 +2,7 @@ var BATTERY_PLOT_ID = "graph2";
 var WATER_PLOT_ID = "graph1";
 var MILLISECPERDAY = 86400000;
 
-var time1, battery1, water_level1, time6, battery6, water_level6, maxval;
+var time1, battery1, water_level1, time6, battery6, water_level6, minval, maxval;
 
 function makeplot(reservoirID, stationName, _isGMT) {
   time1 = [], battery1 = [], water_level1 = [],
@@ -52,11 +52,13 @@ function processData(allData, _isGMT) {
   var maxarr = allvals.sort(function(a,b){
      return a - b;
   });
+  minval = maxarr[1]/100;
   maxval = maxarr[maxarr.length-1]/100;
   //maxval = maxarr[maxarr.length-20]/100;
   if (maxval > (mean + 6*stdev)/100) {
      maxval = (mean + 6*stdev)/100;
   }
+  console.log("minval: " + minval);
   console.log("maxval: " + maxval);
 
   var water_alerts ={
@@ -302,7 +304,8 @@ function makePlotly(_time1, _battery1, _water_level1, _time6, _battery6, _water_
     yaxis: {
       title: "Feet",
       //range: [(mean - 3 * stdev) / 100, (mean + 5 * stdev) / 100]
-      range: [(mean - 3 * stdev) / 100, Math.max(alert.on+1, maxval+1)]
+      // range: [(mean - 3 * stdev) / 100, Math.max(alert.on+1, maxval+1)]
+      range: [minval-1, Math.max(alert.on+1, maxval+1)]
     },
   }
   var options = {
