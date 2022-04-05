@@ -42,7 +42,7 @@ function processData(allData, _isGMT) {
   var allvals = [];
   for (var i = 0; i < allData.length; i++) {
     row = allData[i];
-    if (row['data'] > -10000 && row['data'] < 99999)
+    if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q') 
       allvals.push(row['data']);
   }
   stdev = getSD(allvals);
@@ -53,8 +53,9 @@ function processData(allData, _isGMT) {
      return a - b;
   });
   maxval = maxarr[maxarr.length-1]/100;
-  if (maxval > (mean + 5*stdev)/100) {
-     maxval = (mean + 5*stdev)/100;
+  //maxval = maxarr[maxarr.length-20]/100;
+  if (maxval > (mean + 6*stdev)/100) {
+     maxval = (mean + 6*stdev)/100;
   }
   console.log("maxval: " + maxval);
 
