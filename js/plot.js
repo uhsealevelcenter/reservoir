@@ -53,8 +53,7 @@ function processData(allData, _isGMT) {
      return a - b;
   });
   minval = maxarr[1]/100;
-  maxval = maxarr[maxarr.length-1]/100;
-  //maxval = maxarr[maxarr.length-20]/100;
+  maxval = maxarr[maxarr.length-10]/100;
   if (maxval > (mean + 6*stdev)/100) {
      maxval = (mean + 6*stdev)/100;
   }
