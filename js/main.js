@@ -53,7 +53,10 @@ if (defstn) {
 
 $(document).ready(function() {
 
-  createAndOpenModal();
+  if(localStorage.getItem('modalState') != 'accepted'){
+    createAndOpenModal();
+  }
+
 
   console.log(DEF_STATION);
 
@@ -126,7 +129,7 @@ function onPopUpCancel() {
 }
 
 function onPopUpConfirm() {
-  console.log("CONFIRMED");
+  localStorage.setItem('modalState', 'accepted');
 }
 
 function updateStn(stn) {
