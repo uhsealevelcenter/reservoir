@@ -45,8 +45,16 @@ function processData(allData, _isGMT) {
     if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q') 
       allvals.push(row['data']);
   }
-  stdev = getSD(allvals);
-  mean = getMean(allvals);
+  console.log(allvals.length);
+  if (allvals.length) {
+    stdev = getSD(allvals);
+    mean = getMean(allvals);
+  } 
+  else {
+    stdev = NaN;
+    mean = NaN;
+  }
+
   console.log("mean: " + mean);
   console.log("stdev: " + stdev);
   var maxarr = allvals.sort(function(a,b){
@@ -90,7 +98,8 @@ function processData(allData, _isGMT) {
       }
 
       battery1.push(row['bv']);
-      water_level1.push(row['data'] / 100);
+      if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q')
+          water_level1.push(row['data'] / 100);
       // clean out data that come at intervals longer than 5 minutes
       // by creating an artificial (mid) time point between the intervals and
       // assign it a null value
@@ -110,7 +119,9 @@ function processData(allData, _isGMT) {
     if (row['txtype'] == 6) {
       time6.push(mydate);
       battery6.push(row['bv']);
-      water_level6.push(row['data'] / 100);
+      if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q')
+
+         water_level6.push(row['data'] / 100);
     }
 
   }
