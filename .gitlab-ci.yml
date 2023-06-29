@@ -1,0 +1,11 @@
+stages:
+  - deploy
+
+deploy_job:
+  stage: deploy
+  script:
+    - apt-get update -qq && apt-get install -y -qq sshpass
+    - export SSHPASS=$DEPLOY_SERVER_PASSWORD
+    - sshpass -e scp -o stricthostkeychecking=no -r ./ $DEPLOY_SERVER_USER@$DEPLOY_SERVER_IP:/srv/htdocs/uhslc.soest.hawaii.edu/reservoir
+  only:
+    - master
