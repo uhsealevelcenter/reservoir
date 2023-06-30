@@ -14,20 +14,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-#    - name: Copy repo contents to server
-#      uses: appleboy/scp-action@master
-#      with:
-#        host: ${{ secrets.DEPLOY_SERVER_IP }}
-#        username: ${{ secrets.DEPLOY_SERVER_USER }}
-#        password: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
-#        source: "."
-#        target: "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
-
     - name: Copy repo contents to server
-      uses: burnett01/rsync-deployments@4.1
+      uses: appleboy/scp-action@master
       with:
-        switches: -avzr --delete --exclude '.git' --exclude '.idea' --exclude 'utils'
-        remote_path: /srv/htdocs/uhslc.soest.hawaii.edu/reservoir
-        remote_host: ${{ secrets.DEPLOY_SERVER_IP }}
-        remote_user: ${{ secrets.DEPLOY_SERVER_USER }}
-        remote_key: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
+        host: ${{ secrets.DEPLOY_SERVER_IP }}
+        username: ${{ secrets.DEPLOY_SERVER_USER }}
+        password: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
+        source: "."
+        target: "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
+
+#    - name: Copy repo contents to server
+#      uses: burnett01/rsync-deployments@4.1
+#      with:
+#        switches: -avzr --delete --exclude '.git' --exclude '.idea' --exclude 'utils'
+#        remote_path: /srv/htdocs/uhslc.soest.hawaii.edu/reservoir
+#        remote_host: ${{ secrets.DEPLOY_SERVER_IP }}
+#        remote_user: ${{ secrets.DEPLOY_SERVER_USER }}
+#        remote_key: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
