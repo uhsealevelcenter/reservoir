@@ -27,7 +27,7 @@ jobs:
       uses: burnett01/rsync-deployments@4.1
       with:
         switches: -avzr --delete --exclude '.git' --exclude '.idea' --exclude 'utils'
-        remote_path: /path/to/your/web/directory
+        remote_path: /srv/htdocs/uhslc.soest.hawaii.edu/reservoir
         remote_host: ${{ secrets.DEPLOY_SERVER_IP }}
         remote_user: ${{ secrets.DEPLOY_SERVER_USER }}
         remote_key: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
