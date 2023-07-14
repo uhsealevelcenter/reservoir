@@ -34,7 +34,8 @@ sb = """<script type="text/javascript">
   <div style=""><select name="stn" class="select2">
 """
 
-stns = pd.read_excel('DAM allocations master.xlsx')
+# stns = pd.read_excel('DAM allocations master.xlsx')
+stns = pd.read_excel('/home/ilikai10/slctech/DAM/DAM allocations master.xlsx')
 
 cleanstn=pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off'])
 
@@ -64,7 +65,7 @@ sb += """  </select></div>
 """
 
 #print(sb)
-f = open("sbox.html","w")
+f = open("selectbox.html","w")
 f.write(sb)
 f.close()
 
