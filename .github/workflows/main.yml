@@ -20,7 +20,7 @@ jobs:
         host: ${{ secrets.DEPLOY_SERVER_IP }}
         username: ${{ secrets.DEPLOY_SERVER_USER }}
         password: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
-        source: "."
+        source: ".,!,git,!.idea,!.github"
         target: "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
 
 #    - name: Copy repo contents to server
