@@ -10,11 +10,12 @@ from reservoir_utils import ReservoirDataProcessor
 # Create instance of reservoir utils class.
 reservoir_processor = ReservoirDataProcessor()
 
-# Load environment variables from .env file.
-load_dotenv('.env')
-
 # High level directories.
+resHome = "/home/nwstg/reservoir"
 srvHome = "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
+
+# Load environment variables from .env file.
+load_dotenv(os.path.join(resHome, '.env'))
 
 # Database credentials.
 db_name = os.environ.get('DB_NAME')
