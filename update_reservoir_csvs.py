@@ -15,12 +15,12 @@ from reservoir_utils import ReservoirDataProcessor
 # Create instance of reservoir utils class.
 reservoir_processor = ReservoirDataProcessor()
 
-# Load environment variables from .env file.
-load_dotenv('.env')
-
 # High level directories.
 resHome = "/home/nwstg/reservoir"
 srvHome = "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
+
+# Load environment variables from .env file.
+load_dotenv(os.path.join(resHome, '.env'))
 
 # Csv file containing data routinely inserted to timescale db.
 tsdb_csv = os.path.join(resHome, 'tsdb_insert.csv')
