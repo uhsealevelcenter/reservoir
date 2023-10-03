@@ -9,6 +9,18 @@ from glob import glob
 class ReservoirDataProcessor:
 
     def preprocess_reservoir_df(self, station_id, csv_file, indir):
+        """
+        Function to preprocess reservoir data prior to csv file creation.
+
+        Args:
+            station_id (str): The reservoir station id.
+            csv_file (str): The csv file containing a full historical
+                            record of reservoir data.
+            indir (str): The path to the production reservoir csv files.
+
+        Returns:
+            type: A dataframe containing a consistent record of reservoir data.
+        """
 
         # Read csv containing all historical data into pandas df.
         df = pd.read_csv(csv_file)
@@ -35,6 +47,16 @@ class ReservoirDataProcessor:
         return df
 
     def postprocess_reservoir_df(self, df):
+        """
+        Function to postprocess reservoir data prior to csv file creation.
+
+        Args:
+            df (dataframe): A dataframe containing a consistent record of reservoir data.
+
+        Returns:
+            type: A dataframe containing a consistent record of reservoir data
+                  sorted and with duplicates removed, ready for csv creation.
+        """
 
         # Format date column for new dataframe.
         df['date'] = pd.to_datetime(df['date'], errors='coerce', utc=True).dt.strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -48,6 +70,17 @@ class ReservoirDataProcessor:
         return df
 
     def create_reservoir_csvs(self, station_id, df, outdir):
+        """
+        Function to create production reservoir csvs.
+
+        Args:
+            station_id (str): The reservoir station id.
+            df (dataframe): A dataframe containing a consistent record of reservoir data.
+            outdir (str): The production reservoir csv directory.
+
+        Returns:
+            type: A string indicating whether csv creation was successful or not.
+        """
 
         # Full csv file to contain all historical data.
         full_csv_filename = station_id + '-full.csv'
@@ -77,6 +110,16 @@ class ReservoirDataProcessor:
             return f"ERROR: Problem writing data to csv files: {str(e)}"
 
     def preprocess_gina_df(self, indir):
+        """
+        Function to preprocess reservoir data prior to gina csv file creation.
+
+        Args:
+            indir (str): The production reservoir csv directory.
+
+        Returns:
+            type: A dataframe containing a consistent record of reservoir data
+                  ready for gina csv creation.
+        """
 
         # Latest files used as reference to get month+ file names.
         latest_files = glob(indir + '/*-latest.csv')
@@ -100,6 +143,16 @@ class ReservoirDataProcessor:
         return gina_df
 
     def create_gina_csv(self, df, outdir):
+        """
+        Function to create a gina reservoir csv file.
+
+        Args:
+            df (dataframe): A dataframe containing a consistent record of reservoir data.
+            outdir (str): The production reservoir csv directory.
+
+        Returns:
+            type: A string indicating whether csv creation was successful or not.
+        """
 
         # Gina csv output files.
         csv_file = os.path.join(outdir, 'gina.csv')
@@ -125,3 +178,54 @@ class ReservoirDataProcessor:
             return "LOG: Data successfully written to gina csv file."
         except Exception as e:
             return f"ERROR: Problem writing data to gina csv file: {str(e)}"
+
+    def postprocess_tsdb_df(self, df):
+        """
+        Function to postprocess reservoir data prior to timescale db insertion.
+
+        Args:
+            df (dataframe): A dataframe containing a consistent record of reservoir data
+                            in a format compatible with timescale db..
+
+        Returns:
+            type: A dataframe containing a consistent record of reservoir data
+                  sorted and with duplicates removed, ready for timescale insertion.
+        """
+
+        # Drop duplicate rows based on reservoir id and time.
+        df.drop_duplicates(subset=['reservoir_id', 'time'], keep='first', inplace=True)
+        # Set dataframe index to date.
+        df.set_index('time', inplace=True, drop=False)
+        # Sort the dataframe by date.
+        df.sort_index(inplace=True, ascending=False)
+
+        return df
+
+    def insert_reservoir_csv_to_timescale(self, connection, db_table, csv_file):
+        """
+        Function to insert the reservoir data inside the provided csv file into
+        the provided timescale db table.
+
+        Args:
+            connection (obj): The database object created from executing psycopg2.connect.
+            db_table (str): The database table name.
+            csv_file (str): The reservoir csv file containing data to insert to timescale.
+
+        Returns:
+            type: A string indicating whether the timescale insert was successful or not.
+        """
+
+        try:
+            # Open the provided csv file.
+            f = open(csv_file, 'r')
+            # Define the sql cursor from the provided db connection.
+            cursor = connection.cursor()
+            # Perform the csv copy to the db.
+            cursor.copy_from(f, db_table, sep=",")
+            # Commit to the db.
+            connection.commit()
+            # Close the cursor.
+            cursor.close()
+            return "LOG: Data successfully written to database."
+        except Exception as e:
+            return f"ERROR: Problem writing data to database: {str(e)}"

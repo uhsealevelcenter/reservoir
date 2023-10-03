@@ -7,4 +7,7 @@
 PROCESS_HOME="/home/nwstg/reservoir"
 
 ### EXECUTE RESERVOIR CSV RECREATION FOR ALL STATIONS. ###
-python3 ${PROCESS_HOME}/recreate_reservoir_csvs.py
+${PROCESS_HOME}/recreate_reservoir_csvs.sh
+
+### EXECUTE RESERVOIR DB RECREATION FOR ALL STATIONS. ###
+${PROCESS_HOME}/recreate_reservoir_tsdb.sh
