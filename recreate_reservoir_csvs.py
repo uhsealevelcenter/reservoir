@@ -67,7 +67,7 @@ for idx, chunkname in enumerate(chunks):
         starttime = (datetime.datetime(int(chunkyear), 1, 1) + datetime.timedelta(days=int(msg.jd)-1, hours=int(msg.msgtime[0:2]), minutes=int(msg.msgtime[2:4])))
         dd = pb.pseudobinary(str(msg.msgbody, 'utf-8'))
     except Exception as e:
-        print('ERROR: Issue processing ' + chunkname)
+        print('ERROR: Issue decoding ' + chunkname)
         print(e)
         continue
 
@@ -101,39 +101,47 @@ for idx, chunkname in enumerate(chunks):
                 st += step
                 count += 1
 
-            # Dictionary containing data packet of interest.
-            data_dict = {'date': times, 'data': dd.data, 'bv': dd.batt, 'txtype': dd.group_id}
-
-            # Dictionary keys for csv generation.
-            fieldnames = data_dict.keys()
-
-            # Check if the output csv file already exists for header insertion.
-            file_exists = False
+            # Write data to temporary csv file.
             try:
-                with open(tmp_csv_file, 'r') as csvfile:
-                    file_exists = True
-            except FileNotFoundError:
-                pass
 
-            # Append data to temporary csv file.
-            with open(tmp_csv_file, 'a', newline='') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                # If the file doesn't exist, write the header.
-                if not file_exists:
-                    writer.writeheader()
-                # Determine the number of rows based on the lists in the dictionary.
-                num_rows = max(len(val) if isinstance(val, list) else 1 for val in data_dict.values())
-                # Write the data.
-                for i in range(num_rows):
-                    row_data = {}
-                    for key, value in data_dict.items():
-                        if isinstance(value, list):
-                            row_data[key] = value[i] if i < len(value) else ''
-                        else:
-                            row_data[key] = value
-                    writer.writerow(row_data)
-            # Close the csv file.
-            csvfile.close()
+                # Dictionary containing data packet of interest.
+                data_dict = {'date': times, 'data': dd.data, 'bv': dd.batt, 'txtype': dd.group_id}
+
+                # Dictionary keys for csv generation.
+                fieldnames = data_dict.keys()
+
+                # Check if the output csv file already exists for header insertion.
+                file_exists = False
+                try:
+                    with open(tmp_csv_file, 'r') as csvfile:
+                        file_exists = True
+                except FileNotFoundError:
+                    pass
+
+                # Append data to temporary csv file.
+                with open(tmp_csv_file, 'a', newline='') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    # If the file doesn't exist, write the header.
+                    if not file_exists:
+                        writer.writeheader()
+                    # Determine the number of rows based on the lists in the dictionary.
+                    num_rows = max(len(val) if isinstance(val, list) else 1 for val in data_dict.values())
+                    # Write the data.
+                    for i in range(num_rows):
+                        row_data = {}
+                        for key, value in data_dict.items():
+                            if isinstance(value, list):
+                                row_data[key] = value[i] if i < len(value) else ''
+                            else:
+                                row_data[key] = value
+                        writer.writerow(row_data)
+                # Close the csv file.
+                csvfile.close()
+
+            except Exception as e:
+                print('ERROR: Issue updating temporary csv with data from ' + chunkname)
+                print(e)
+                continue
 
 # Temporary files created above containing all historical data to post-process.
 tmp_csv_files = glob(tmpHome + '/*-full.csv')
@@ -149,7 +157,9 @@ for tmp_csv_file in tmp_csv_files:
         df = reservoir_processor.preprocess_reservoir_df(station_id, tmp_csv_file, srvHome)
         df = reservoir_processor.postprocess_reservoir_df(df)
     except Exception as e:
-        raise Exception(f"ERROR: {str(e)}")
+        print('ERROR: Issue processing data in ' + tmp_csv_file)
+        print(e)
+        continue
 
     # Create production csv files.
     reservoir_processor.create_reservoir_csvs(station_id, df, srvHome)
