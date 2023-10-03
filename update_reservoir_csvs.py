@@ -8,11 +8,15 @@ import gts.gts as gts
 import pseudobinary.pseudobinary as pb
 
 from glob import glob
+from dotenv import load_dotenv
 
 from reservoir_utils import ReservoirDataProcessor
 
 # Create instance of reservoir utils class.
 reservoir_processor = ReservoirDataProcessor()
+
+# Load environment variables from .env file.
+load_dotenv('.env')
 
 # High level directories.
 resHome = "/home/nwstg/reservoir"
@@ -22,11 +26,11 @@ srvHome = "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
 tsdb_csv = os.path.join(resHome, 'tsdb_insert.csv')
 
 # Database credentials.
-db_name = 'uhslc'
-db_user = 'postgres'
-db_pass = 'password'
-db_host = 'wyrtki'  # Same as putting wyrtki.soest.hawaii.edu or 127.0.0.1 here
-db_port = '5432'
+db_name = os.environ.get('DB_NAME')
+db_user = os.environ.get('DB_USER')
+db_pass = os.environ.get('DB_PASS')
+db_host = os.environ.get('DB_HOST')
+db_port = os.environ.get('DB_PORT')
 
 # Connect to the database.
 conn = psycopg2.connect(
