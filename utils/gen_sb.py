@@ -1,12 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 13 10:25:22 2020
-
-@author: dyoung
-"""
+import os
 
 import pandas as pd
+
 
 def pos2dd(input):
     hh = input.split('o')[0]
@@ -25,6 +20,14 @@ def pos2dd(input):
     return dd
 
 
+# High level data directory.
+data_dir = "/srv/htdocs/uhslc.soest.hawaii.edu/reservoir"
+
+# Reservoir metadata file and html file for selectbox.
+reservoir_metadata_file = os.path.join(data_dir, "reservoir_metadata.csv")
+sb_html_file = os.path.join(data_dir, "selectbox.html")
+
+# Data for selectbox.html.
 sb = """<script type="text/javascript">
   $('select').select2();
 </script>
@@ -34,15 +37,17 @@ sb = """<script type="text/javascript">
   <div style=""><select name="stn" class="select2">
 """
 
-# stns = pd.read_excel('DAM allocations master.xlsx')
+# Read dams excel file.
 stns = pd.read_excel('/home/ilikai10/slctech/DAM/DAM allocations master.xlsx')
 
-cleanstn=pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off'])
+# Initialize empty dataframe.
+reservoir_metadata_df = pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off', 'sensor_type'])
 
+# Loop through unique stations and append to dataframe.
 for stn in stns.ADDRESS:
     if isinstance(stn,str):
         foo = stns.loc[stns['ADDRESS'] == stn].to_dict('r')
-        if str(foo[0]['DLNR #']) != 'nan':
+        if str(foo[0]['DLNR #']) != 'nan' and str(foo[0]['Status']) != 'removed':
             sb += '      <option value="{}">{} {} {}</option>\n'.format(str(foo[0]['ADDRESS']),
                                                                         str(foo[0]['ADDRESS']),
                                                                         str(foo[0]['DLNR #']),
@@ -54,23 +59,23 @@ for stn in stns.ADDRESS:
                                   "lat":[pos2dd(foo[0]['LAT'])],
                                   "lon":[pos2dd(foo[0]['LONG'])],
                                   "alert_on":[foo[0]['5 MIN ON']],
-                                  "alert_off":[foo[0]['5 MIN OFF']]
+                                  "alert_off":[foo[0]['5 MIN OFF']],
+                                  "sensor_type":[foo[0]['Sensor type']]
                                   })
-            cleanstn = cleanstn.append(tempdf)
+            tempdf['sensor_type'] = tempdf['sensor_type'].fillna('None')
+            reservoir_metadata_df = reservoir_metadata_df.append(tempdf)
             
-cleanstn = cleanstn.reset_index()
-            
+reservoir_metadata_df = reservoir_metadata_df.reset_index()
+
+# Data for selectbox.html.
 sb += """  </select></div>
 </form>
 """
 
-#print(sb)
-f = open("selectbox.html","w")
+# Create selectbox.html.
+f = open(sb_html_file, "w")
 f.write(sb)
 f.close()
 
-cleanstn.to_pickle('dam_meta.pkl')
-        
-
-
-
+# Create metadata csv file.
+reservoir_metadata_df.to_csv(reservoir_metadata_file, index=False, header=True, float_format='%.4f')
