@@ -107,6 +107,7 @@ for index, row in reservoir_metadata_df.iterrows():
                                          "batt_1w_slope":row['batt_1w_slope'],
                                          "level_alert":row['level_alert'],
                                          "batt_alert":row['batt_alert'],
+                                         "active":row['active'],
                                         }
                              ))
 zz = FeatureCollection(features)

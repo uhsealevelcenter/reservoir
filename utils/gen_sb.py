@@ -38,14 +38,18 @@ sb = """<script type="text/javascript">
 """
 
 # Read dams excel file.
-stns = pd.read_excel('/home/ilikai10/slctech/DAM/DAM allocations master.xlsx')
+stns = pd.read_excel('/home/ilikai10/slctech/DAM/DAM allocations master.xlsx', engine='openpyxl')
 
 # Initialize empty dataframe.
-reservoir_metadata_df = pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off', 'sensor_type'])
+reservoir_metadata_df = pd.DataFrame(columns=['addr','dlnrid','location','lat','lon','alert_on','alert_off', 'sensor_type', 'active'])
 
 # Loop through unique stations and append to dataframe.
 for stn in stns.ADDRESS:
     if isinstance(stn,str):
+        if stn == 'EDD0BF48':
+            active = False
+        else:
+            active = True
         foo = stns.loc[stns['ADDRESS'] == stn].to_dict('r')
         if str(foo[0]['DLNR #']) != 'nan' and str(foo[0]['Status']) != 'removed':
             sb += '      <option value="{}">{} {} {}</option>\n'.format(str(foo[0]['ADDRESS']),
@@ -60,7 +64,8 @@ for stn in stns.ADDRESS:
                                   "lon":[pos2dd(foo[0]['LONG'])],
                                   "alert_on":[foo[0]['5 MIN ON']],
                                   "alert_off":[foo[0]['5 MIN OFF']],
-                                  "sensor_type":[foo[0]['Sensor type']]
+                                  "sensor_type":[foo[0]['Sensor type']],
+                                  "active":active
                                   })
             tempdf['sensor_type'] = tempdf['sensor_type'].fillna('None')
             reservoir_metadata_df = reservoir_metadata_df.append(tempdf)
