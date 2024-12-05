@@ -98,8 +98,11 @@ function processData(allData, _isGMT) {
       }
 
       battery1.push(row['bv']);
-      if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q')
+      if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q') {
           water_level1.push(row['data'] / 100);
+      } else  {
+	  water_level1.push(NaN);
+      }
       // clean out data that come at intervals longer than 5 minutes
       // by creating an artificial (mid) time point between the intervals and
       // assign it a null value
@@ -119,9 +122,12 @@ function processData(allData, _isGMT) {
     if (row['txtype'] == 6) {
       time6.push(mydate);
       battery6.push(row['bv']);
-      if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q')
-
+      if (row['data'] > -10000 && row['data'] < 99999 && row['txtype'] != 'q') {
          water_level6.push(row['data'] / 100);
+      } else {
+	  water_level6.push(NaN);
+      }
+
     }
 
   }
